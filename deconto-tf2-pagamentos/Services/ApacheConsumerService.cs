@@ -1,22 +1,25 @@
 ﻿using Confluent.Kafka;
 using deconto_tf2_pagamentos.DTO;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace deconto_tf2_pagamentos.Services
 {
-    public class ApacheConsumerService : IHostedService
+    public class ApacheConsumerService : BackgroundService
     {
-        private readonly string _topic = "teste";
+        private readonly string _topic = "pagamentos";
         private readonly string _groupId = "grupo_teste";
         private readonly string _bootstrapServers = "localhost:9092";
-        private readonly PagamentoService _pagamentoService;
+        private readonly IServiceProvider _serviceProvider;
 
-        public ApacheConsumerService(PagamentoService pagamentoService)
+        public ApacheConsumerService(IServiceProvider serviceProvider)
         {
-            _pagamentoService = pagamentoService;
+            _serviceProvider = serviceProvider;
         }
-        public Task StartAsync(CancellationToken cancellationToken)
+        protected override async Task ExecuteAsync(CancellationToken cancellationToken)
+        {
+            await DoWorkAsync(cancellationToken);
+        }
+        public async Task DoWorkAsync(CancellationToken cancellationToken)
         {
             var config = new ConsumerConfig
             {
@@ -25,41 +28,40 @@ namespace deconto_tf2_pagamentos.Services
                 AutoOffsetReset = AutoOffsetReset.Earliest,
             };
 
-            try
+            using(var consumerBuilder = new ConsumerBuilder<Ignore, string>(config).Build())
             {
-                using(var consumerBuilder = new ConsumerBuilder<Ignore, string>(config).Build())
+                consumerBuilder.Subscribe(_topic);
+                var cancelToken = new CancellationTokenSource();
+
+                try
                 {
-                    consumerBuilder.Subscribe(_topic);
-                    var cancelToken = new CancellationTokenSource();
-
-                    try
+                    while (true)
                     {
-                        while (true)
+                        var consumer = consumerBuilder.Consume(cancelToken.Token);
+
+                        var pagamento = JsonSerializer.Deserialize<PagamentoDTO>(consumer.Message.Value);
+
+                        if(pagamento != null)
                         {
-                            var consumer = consumerBuilder.Consume(cancelToken.Token);
+                            using (var scope =_serviceProvider.CreateScope())
+                            {
+                                var pagamentoService = scope.ServiceProvider.GetRequiredService<PagamentoService>();
 
-                            var pagamento = JsonSerializer.Deserialize<PagamentoDTO>(consumer.Message.Value);
-
-
+                                await pagamentoService.Cadastrar(pagamento);
+                            }
                         }
                     }
-                    catch (OperationCanceledException)
-                    {
-                        consumerBuilder.Close();
-                    }
+                }
+                catch (OperationCanceledException)
+                {
+                    consumerBuilder.Close();
                 }
             }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return Task.CompletedTask;
         }
 
-        public Task StopAsync(CancellationToken cancellationToken)
+        public async Task StopAsync(CancellationToken cancellationToken)
         {
-            return Task.CompletedTask;
+            await base.StopAsync(cancellationToken);
         }
     }
 }

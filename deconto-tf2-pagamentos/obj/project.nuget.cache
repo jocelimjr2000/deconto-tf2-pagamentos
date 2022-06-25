@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "QwV7kZviQPHH+tNkbzIq+1Fy411vVZ8CkQg5Mc/XpffisJmUnCKLNAFt+AJbEfCwjXCr5SqYnybQLFXZowHX6Q==",
+  "dgSpecHash": "Rk4AAWwC9MrhEYjCzh2mN5am8egceFQmC4Xx1h/OPn81KiIIyEHVKVKLxgxxEIgOrWIiIrJy4rWxSKqhXcfoUA==",
   "success": true,
   "projectFilePath": "C:\\Users\\rafae\\source\\repos\\DecontoTf2Pagamentos\\deconto-tf2-pagamentos\\DecontoTf2Pagamentos.csproj",
   "expectedPackageFiles": [
@@ -24,6 +24,7 @@
     "C:\\Users\\rafae\\.nuget\\packages\\microsoft.extensions.primitives\\6.0.0\\microsoft.extensions.primitives.6.0.0.nupkg.sha512",
     "C:\\Users\\rafae\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
     "C:\\Users\\rafae\\.nuget\\packages\\mysqlconnector\\2.1.2\\mysqlconnector.2.1.2.nupkg.sha512",
+    "C:\\Users\\rafae\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\rafae\\.nuget\\packages\\pomelo.entityframeworkcore.mysql\\6.0.1\\pomelo.entityframeworkcore.mysql.6.0.1.nupkg.sha512",
     "C:\\Users\\rafae\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
     "C:\\Users\\rafae\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",

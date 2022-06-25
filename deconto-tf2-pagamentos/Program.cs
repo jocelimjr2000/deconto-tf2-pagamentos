@@ -2,9 +2,9 @@ using deconto_tf2_pagamentos.Helpers;
 using deconto_tf2_pagamentos.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Add services to the container.
-builder.Services.AddSingleton<IHostedService, ApacheConsumerService>();
+
+builder.Services.AddHostedService<ApacheConsumerService>();
 
 builder.Services.AddScoped<PagamentoService>();
 

@@ -16,8 +16,8 @@ namespace deconto_tf2_pagamentos.Services
         {
             var pagamento = new Pagamento
             {
-                IdEntrega = pagamentoDTO.IdEntrega,
-                Valor = pagamentoDTO.Valor,
+                IdEntrega = pagamentoDTO.idEntrega,
+                Valor = pagamentoDTO.valor,
                 DataPagamento = DateTime.Now,
                 Pago = true,
             };

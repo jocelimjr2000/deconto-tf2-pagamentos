@@ -2,7 +2,7 @@
 {
     public class PagamentoDTO
     {
-        public decimal Valor { get; set; }
-        public string IdEntrega { get; set; }
+        public decimal valor { get; set; }
+        public string idEntrega { get; set; }
     }
 }
